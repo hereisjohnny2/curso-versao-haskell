@@ -71,3 +71,16 @@ instance Monoid Cor where
    mempty = Cor { red = 0, green = 0, blue = 0 } 
 
 -- g) A instância de Monoid criada é valida considerando as leis dos Monoids?
+
+-- 4. Siga as intruções abaixo em sequência:
+-- a) Crie um tipo Cofre que possua uma type variable, e um value constructor de mesmo nome que o tipo, que carregue um valor que seja um lista do tipo da type variable.
+newtype Cofre a = Cofre [a] deriving Show
+
+-- b) Crie uma instância do typeclass Functor para esse tipo.
+instance Functor Cofre where 
+    fmap f (Cofre xs) = Cofre (fmap f xs)
+
+-- c) Crie uma instância do typeclass Applicative para esse tipo.
+instance Applicative Cofre where
+   pure x = Cofre [x] 
+   (Cofre fs) <*> (Cofre xs) = Cofre [f x | x <- xs, f <- fs]
