@@ -120,3 +120,23 @@ somaNatural (Natural x) (Natural y) = Natural (x + y)
 paraInt :: Natural Int -> Int
 paraInt Zero  = 0
 paraInt (Natural x) = x
+
+-- 7. Crie uma função que receba 3 parâmetros, sendo eles duas funções (referenciadas aqui no enunciado como f e g) e um valor (referenciado aqui no enunciado como x), e retorne uma tupla de duas posições contendo na primeira posição o resultado de f composta em g aplicado em x e na segunda o resultado de g composta em f aplicado em x. Construa a função da forma mais genérica que for possível de criar uma função com essas caracteristicas e deixe explicita a assinatura da função. Faça uma breve explicação sobre a forma como vc pensou para criar essa função.
+compFunc :: (a -> a) -> (a -> a) -> a -> (a, a)
+compFunc f g x = (f . g $ x, g . f $ x)
+
+-- 8. Crie um tipo JoKenPo que possua três value constructors, representando as jogadas predra, papel e tesoura. Crie um tipo Resultado que possua três value constructors, representado os resultados da vitória do jogador 1, a vitória do jogador 2 e o empate. Crie uma função jogar, que recebe duas jogadas, do tipo JoKenPo, e retorne o resultado, do tipo Resultado. Considere o primeiro parâmetro como jogador 1 e o segundo como jogador 2.
+data JoKePo = Pedra | Papel | Tesoura deriving Show
+data Result = Jogador1 | Jogador2 | Empate deriving Show
+
+jogar :: JoKePo -> JoKePo -> Result
+jogar Pedra Tesoura = Jogador1
+jogar Pedra Papel = Jogador2
+jogar Pedra Pedra = Empate
+jogar Tesoura Papel = Jogador1
+jogar Tesoura Pedra = Jogador2
+jogar Tesoura Tesoura = Empate
+jogar Papel Pedra = Jogador1
+jogar Papel Tesoura = Jogador2
+jogar Papel Papel = Empate
+
