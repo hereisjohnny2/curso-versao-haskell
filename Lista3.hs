@@ -27,7 +27,7 @@ ehTriangulo :: Num a => Ord a => a -> a -> a -> Bool
 ehTriangulo x y z = abs (y - z) < x && x < (y + z)
 
 -- c) Crie uma função recursiva que tenha dois parâmetros númericos, de qualquer tipo, e calcule a potenciação, o primeiro parâmetro sendo a base e o segundo o expoente.
-potencia :: Eq a => Num a => a -> a -> a
+potencia :: Int -> Int -> Int
 potencia b e
   | e == 0 = 1
   | e == 1 = b
@@ -107,7 +107,7 @@ instance EhCarro Int where
 
 -- 6. Seguindo os aximos de Peano:
 -- a) Zero é um número natural, e todo sucessor de um número natural também é um número natural. Crie o tipo Natural, que possua dois value contructors, um para representar o valor zero, e o outro para representar a sucessão de um valor do tipo Natural. (Dica: este é um tipo recursivo)
-data Natural a = Zero | Natural a deriving Show
+data Natural a = Zero | Natural a deriving (Show)
 
 -- b) Com o conceito de sucessão contido na definição do tipo Natual, podemos representar o valor 1 como o sucessor de zero, o valor 2 como o sucessor do sucessor de zero, e assim por diante. Crie uma função somaNatural, que receba dois parâmetros do tipo Natural que você criou e retorne um valor do tipo Natural que seja a soma dos dois parâmetros.
 somaNatural :: Num a => Natural a -> Natural a -> Natural a
@@ -118,7 +118,7 @@ somaNatural (Natural x) (Natural y) = Natural (x + y)
 
 -- c) Crie uma função que converta de Natural para Int.
 paraInt :: Natural Int -> Int
-paraInt Zero  = 0
+paraInt Zero = 0
 paraInt (Natural x) = x
 
 -- 7. Crie uma função que receba 3 parâmetros, sendo eles duas funções (referenciadas aqui no enunciado como f e g) e um valor (referenciado aqui no enunciado como x), e retorne uma tupla de duas posições contendo na primeira posição o resultado de f composta em g aplicado em x e na segunda o resultado de g composta em f aplicado em x. Construa a função da forma mais genérica que for possível de criar uma função com essas caracteristicas e deixe explicita a assinatura da função. Faça uma breve explicação sobre a forma como vc pensou para criar essa função.
@@ -126,8 +126,9 @@ compFunc :: (a -> a) -> (a -> a) -> a -> (a, a)
 compFunc f g x = (f . g $ x, g . f $ x)
 
 -- 8. Crie um tipo JoKenPo que possua três value constructors, representando as jogadas predra, papel e tesoura. Crie um tipo Resultado que possua três value constructors, representado os resultados da vitória do jogador 1, a vitória do jogador 2 e o empate. Crie uma função jogar, que recebe duas jogadas, do tipo JoKenPo, e retorne o resultado, do tipo Resultado. Considere o primeiro parâmetro como jogador 1 e o segundo como jogador 2.
-data JoKePo = Pedra | Papel | Tesoura deriving Show
-data Result = Jogador1 | Jogador2 | Empate deriving Show
+data JoKePo = Pedra | Papel | Tesoura deriving (Show)
+
+data Result = Jogador1 | Jogador2 | Empate deriving (Show)
 
 jogar :: JoKePo -> JoKePo -> Result
 jogar Pedra Tesoura = Jogador1
@@ -139,4 +140,3 @@ jogar Tesoura Tesoura = Empate
 jogar Papel Pedra = Jogador1
 jogar Papel Tesoura = Jogador2
 jogar Papel Papel = Empate
-
