@@ -65,22 +65,42 @@ somaCor c1 c2 = Cor {red = red c1 `somaCanal` red c2, green = green c1 `somaCana
 
 -- f) Crie uma instância de Monoid para o tipo Cor, onde a operação bínaria seja o operador <+> e o elemento nêutro seja um valor do tipo Cor que contem os valores RGB como 0.
 instance Semigroup Cor where
-   (<>) = (<+>) 
+  (<>) = (<+>)
 
 instance Monoid Cor where
-   mempty = Cor { red = 0, green = 0, blue = 0 } 
+  mempty = Cor {red = 0, green = 0, blue = 0}
 
 -- g) A instância de Monoid criada é valida considerando as leis dos Monoids?
 
 -- 4. Siga as intruções abaixo em sequência:
 -- a) Crie um tipo Cofre que possua uma type variable, e um value constructor de mesmo nome que o tipo, que carregue um valor que seja um lista do tipo da type variable.
-newtype Cofre a = Cofre [a] deriving Show
+newtype Cofre a = Cofre [a] deriving (Show)
 
 -- b) Crie uma instância do typeclass Functor para esse tipo.
-instance Functor Cofre where 
-    fmap f (Cofre xs) = Cofre (fmap f xs)
+instance Functor Cofre where
+  fmap f (Cofre xs) = Cofre (fmap f xs)
 
 -- c) Crie uma instância do typeclass Applicative para esse tipo.
 instance Applicative Cofre where
-   pure x = Cofre [x] 
-   (Cofre fs) <*> (Cofre xs) = Cofre [f x | x <- xs, f <- fs]
+  pure x = Cofre [x]
+  (Cofre fs) <*> (Cofre xs) = Cofre [f x | x <- xs, f <- fs]
+
+-- 5. Siga as intruções a baixo na sequência:
+-- a) Crie o tipo Automovel que possua dois value constructors, um para representar o carro, e o outro para representar a moto. (os value constructors não carregam nenhum valor)
+data Automovel = Carro | Moto
+
+-- b) Crie um tipo Veiculo que possua um value constructor de mesmo nome que carregue 2 valores, o primeiro de nome automovel do tipo Automovel, o segundo de nome placa do tipo String. (Utilize record syntax)
+data Veiculo = Veiculo {automovel :: Automovel, placa :: String}
+
+-- c)  Crie um typeclass EhCarro, para tipos de kind *, que possua uma função com nome ehCarro que receba um valor do tipo do type parameter do typeclass, e retorne um valor do tipo Bool informando se é um carro.
+class EhCarro c where
+  ehCarro :: c -> Bool
+
+-- d) Crie uma instância de EhCarro para o tipo Veiculo.
+instance EhCarro Veiculo where
+  ehCarro (Veiculo Carro _) = True
+  ehCarro (Veiculo Moto _) = False
+
+-- e) Crie uma instância de EhCarro para o tipo Int (Nenhum número é um carro).
+instance EhCarro Int where
+  ehCarro _ = False
