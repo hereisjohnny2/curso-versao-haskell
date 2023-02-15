@@ -104,3 +104,19 @@ instance EhCarro Veiculo where
 -- e) Crie uma instância de EhCarro para o tipo Int (Nenhum número é um carro).
 instance EhCarro Int where
   ehCarro _ = False
+
+-- 6. Seguindo os aximos de Peano:
+-- a) Zero é um número natural, e todo sucessor de um número natural também é um número natural. Crie o tipo Natural, que possua dois value contructors, um para representar o valor zero, e o outro para representar a sucessão de um valor do tipo Natural. (Dica: este é um tipo recursivo)
+data Natural a = Zero | Natural a deriving Show
+
+-- b) Com o conceito de sucessão contido na definição do tipo Natual, podemos representar o valor 1 como o sucessor de zero, o valor 2 como o sucessor do sucessor de zero, e assim por diante. Crie uma função somaNatural, que receba dois parâmetros do tipo Natural que você criou e retorne um valor do tipo Natural que seja a soma dos dois parâmetros.
+somaNatural :: Num a => Natural a -> Natural a -> Natural a
+somaNatural Zero Zero = Zero
+somaNatural Zero (Natural x) = Natural x
+somaNatural (Natural x) Zero = Natural x
+somaNatural (Natural x) (Natural y) = Natural (x + y)
+
+-- c) Crie uma função que converta de Natural para Int.
+paraInt :: Natural Int -> Int
+paraInt Zero  = 0
+paraInt (Natural x) = x
