@@ -1,0 +1,10 @@
+name: hello
+version: 0.1.0
+
+executable:
+  main: Main.hs
+  source-dirs: src
+
+dependencies:
+  - base
+  - random
