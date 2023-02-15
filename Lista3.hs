@@ -28,7 +28,46 @@ ehTriangulo x y z = abs (y - z) < x && x < (y + z)
 
 -- c) Crie uma função recursiva que tenha dois parâmetros númericos, de qualquer tipo, e calcule a potenciação, o primeiro parâmetro sendo a base e o segundo o expoente.
 potencia :: Eq a => Num a => a -> a -> a
-potencia b e  
-    | e == 0 = 1
-    | e == 1 = b
-    | otherwise = b * potencia b (e - 1)
+potencia b e
+  | e == 0 = 1
+  | e == 1 = b
+  | otherwise = b * potencia b (e - 1)
+
+-- 3. Siga as intruções a baixo na sequência:
+-- a) Crie um tipo Cor que possua um value constructor de mesmo nome que carrege 3 valores do tipo Int.
+data Cor1 = Cor1 Int Int Int
+
+-- b) Cada um dos valores do tipo Int são relativos aos valores RGB (red, green, blue), pra cada um desses valores crie (manualmente) uma função de projeçãoo nome das funções devem ser red, green e blue, respectvamente para cada um dos valores do tipo Int.
+red1 :: Cor1 -> Int
+red1 (Cor1 r _ _) = r
+
+green1 :: Cor1 -> Int
+green1 (Cor1 _ g _) = g
+
+blue1 :: Cor1 -> Int
+blue1 (Cor1 _ _ b) = b
+
+-- c) Ao invés de criar as funções de projeção manualmente, crie o tipo Cor utilizando record syntax.
+data Cor = Cor {red :: Int, green :: Int, blue :: Int} deriving (Show)
+
+-- d) Crie uma função com o nome somaCor, que combine dois valores do tipo Cor, de forma que o resultado deve ser um novo valor, também do tipo Cor, onde os valores relativos ao RGB (red, green e blue), são relativos a soma dos valores RGB dos parâmetros da função, respectivamente. Caso algum valor relativo relativo ao valores RGB do resultado seja maior que 255, deve-se colocar 255 no lugar.
+somaCanal :: Int -> Int -> Int
+somaCanal x y
+  | x > 255 || y > 255 = 255
+  | otherwise = let s = x + y in if s > 255 then 255 else s
+
+somaCor :: Cor -> Cor -> Cor
+somaCor c1 c2 = Cor {red = red c1 `somaCanal` red c2, green = green c1 `somaCanal` green c2, blue = blue c1 `somaCanal` blue c2}
+
+-- e) Crie um operador <+> que faça a mesma coisa que a função somaCor, utilizi-se do conceito de currying para definir o operador. (Os símbolos de maior e menor fazem parte do operador)
+(<+>) :: Cor -> Cor -> Cor
+(<+>) = somaCor
+
+-- f) Crie uma instância de Monoid para o tipo Cor, onde a operação bínaria seja o operador <+> e o elemento nêutro seja um valor do tipo Cor que contem os valores RGB como 0.
+instance Semigroup Cor where
+   (<>) = (<+>) 
+
+instance Monoid Cor where
+   mempty = Cor { red = 0, green = 0, blue = 0 } 
+
+-- g) A instância de Monoid criada é valida considerando as leis dos Monoids?
