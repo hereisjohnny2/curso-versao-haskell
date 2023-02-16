@@ -107,19 +107,17 @@ instance EhCarro Int where
 
 -- 6. Seguindo os aximos de Peano:
 -- a) Zero é um número natural, e todo sucessor de um número natural também é um número natural. Crie o tipo Natural, que possua dois value contructors, um para representar o valor zero, e o outro para representar a sucessão de um valor do tipo Natural. (Dica: este é um tipo recursivo)
-data Natural a = Zero | Natural a deriving (Show)
+data Natural = Zero | Proximo Natural deriving (Show)
 
 -- b) Com o conceito de sucessão contido na definição do tipo Natual, podemos representar o valor 1 como o sucessor de zero, o valor 2 como o sucessor do sucessor de zero, e assim por diante. Crie uma função somaNatural, que receba dois parâmetros do tipo Natural que você criou e retorne um valor do tipo Natural que seja a soma dos dois parâmetros.
-somaNatural :: Num a => Natural a -> Natural a -> Natural a
-somaNatural Zero Zero = Zero
-somaNatural Zero (Natural x) = Natural x
-somaNatural (Natural x) Zero = Natural x
-somaNatural (Natural x) (Natural y) = Natural (x + y)
+somaNatural :: Natural -> Natural -> Natural
+somaNatural Zero x = x
+somaNatural (Proximo x) y = Proximo (somaNatural x y)
 
 -- c) Crie uma função que converta de Natural para Int.
-paraInt :: Natural Int -> Int
+paraInt :: Natural -> Int
 paraInt Zero = 0
-paraInt (Natural x) = x
+paraInt (Proximo x) = 1 + paraInt x
 
 -- 7. Crie uma função que receba 3 parâmetros, sendo eles duas funções (referenciadas aqui no enunciado como f e g) e um valor (referenciado aqui no enunciado como x), e retorne uma tupla de duas posições contendo na primeira posição o resultado de f composta em g aplicado em x e na segunda o resultado de g composta em f aplicado em x. Construa a função da forma mais genérica que for possível de criar uma função com essas caracteristicas e deixe explicita a assinatura da função. Faça uma breve explicação sobre a forma como vc pensou para criar essa função.
 compFunc :: (a -> a) -> (a -> a) -> a -> (a, a)
