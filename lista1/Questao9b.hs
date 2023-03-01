@@ -10,8 +10,7 @@ stringToInt = readMaybe
 calcularPeso :: Maybe Int -> Int
 calcularPeso Nothing = 0
 calcularPeso (Just x)
-  | x < 1 = 0
-  | x == 1 = 1
+  | x < 6 = 0
   | otherwise = peso + calcularPeso (Just peso) where peso = (x `div` 3) - 2
 
 main :: IO ()
